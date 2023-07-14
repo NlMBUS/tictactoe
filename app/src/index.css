@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+* {
+  font-family: "Varela Round";
+}
+
+li{
+  list-style-type: none;
+}
+
+.actions {
+  padding: 20px;
+  display: flex;
+  max-width: 750px;
+  margin: auto;
+  border-bottom: 2px solid rgb(245, 245, 245);
+}
+
+.actions button{
+  background-color: rgb(240, 58, 88);
+  background-repeat: no-repeat;
+  overflow: hidden;
+  outline: none;
+  border-radius: 10px;
+  border-width: 0px;
+  padding: 18px;
+  margin: 10px;
+  box-shadow: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+}
+
+.actions button:hover, #showBoard:hover{
+  background-color: rgb(207, 46, 73);
+  cursor: pointer;
+}
+
+h1{
+  margin-left: auto;
+}
+
+p{
+  float:center;
+  font-size: 50px;
+  font-weight: 600;
+}
+
+a { 
+  color: white;
+  text-decoration: none;
+}
+
+.squares, .archiveSquares{
+  margin-top: 140px;
+  margin-left: 20px;
+}
+
+.squares button, .archiveSquares button{
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+  font-weight: 600;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border-color: black;
+  border-style: solid;
+  border-width: 3px;
+  overflow: hidden;
+  outline: none;
+}
+
+.squares button:hover{
+  background-color: rgb(241, 241, 241);
+  cursor: pointer;
+}
+
+#square1, #square4, #square7{
+  float:left;
+  margin-left: 774px;
+}
+
+#square2, #square3, #square5, #square6, #square8, #square9{
+  float:left;
+}
+
+#status{
+  margin-top: 325px;
+}
+
+td, th {
+  font-size: 25px;
+  border: 2px solid;
+  border-color: white;
+  background-color: rgb(240, 58, 88);
+  color: white;
+}
+
+table {
+  background-repeat: no-repeat;
+  margin: 10px;
+  box-shadow: 10px;
+  font-weight: 600;
+  max-width: 750px;
+  margin: 20px;
+  margin-left: 580px;
+  width: 100%;
+  border-collapse: collapse;
+}
