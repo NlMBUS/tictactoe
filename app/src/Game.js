@@ -11,6 +11,7 @@ const Game = () => {
     const [history, setHistory] = useState([]);
     const [letter, setLetter] = useState(' ');
     const [other, setOther] = useState(' ');
+    const [saved, setSaved] = useState(false);
 
     const enter = (e, idData, letterData) => {
         if (letterData === ' ' && check() == false){
@@ -78,16 +79,17 @@ const Game = () => {
                     body: JSON.stringify(move)
                 })
             }
+            setLetter('X')
+            setTurn(0);
+            setSaved(false);
         }
-        setLetter('X')
-        setTurn(0);
     }
 
-    
     const restart = () => {
         setHistory([]);
         setMoves([]);
         setTurn(0);
+        setSaved(false);
         setLetter(' ')
         for (let i = 1; i <= moves.length; i++){
             fetch('http://localhost:8000/moves/' + moves[i-1].id, {
@@ -117,7 +119,8 @@ const Game = () => {
     }
 
     const save = () => {
-        if (check()){
+        if (check() && saved == false){
+            setSaved(true);
             const move = { other, turn, moves };
             fetch('http://localhost:8000/moves', {
                 method: 'POST',
@@ -142,15 +145,13 @@ const Game = () => {
         };
       }, []);
 
-
-
     return (
         <div>
             <div className="actions">
-                <button onClick={ (e) => {start(e);}} >Start</button>
-                <button onClick={ (e) => {restart(e);}} >Restart</button>
-                <button onClick={ (e) => {undo(e);}} >Undo</button>
-                <button onClick={ (e) => {save(e);}} >Save</button>
+                <button id={ moves.length == 0 ? "colored" : "grey" } onClick={ (e) => {start(e);}} >Start</button>
+                <button id={ moves.length > 0 ? "colored" : "grey" } onClick={ (e) => {restart(e);}} >Restart</button>
+                <button id={ !check() && turn > 0 ? "colored" : "grey" } onClick={ (e) => {undo(e);}} >Undo</button>
+                <button id={ check() && !saved && turn > 0 ? "colored" : "grey" } onClick={ (e) => {save(e);}} >Save</button>
                 <button>
                 <Link to ='/archive'>
                     Archive
@@ -162,9 +163,8 @@ const Game = () => {
                     <li key={ `game${singleMove.id}` }>
                         <div className="squares">
                             { 
-                            <button id={ `square${singleMove.id}` } hover="true" onClick={ (e) => {enter(e, singleMove.id-1, singleMove.letter)}} >{ singleMove.letter }</button> 
+                            <button id={ singleMove.letter == " " && !check() ? `square${singleMove.id}` : `square${singleMove.id}grey` } onClick={ (e) => {enter(e, singleMove.id-1, singleMove.letter)}} >{ singleMove.letter }</button> 
                             }
-                        
                         </div>
                     </li>
                 ))}
@@ -173,6 +173,8 @@ const Game = () => {
                 <p id="status">{ check() }</p>
                 { !check() && moves.length > 0 && <p id="status">{ `It's ${letter}'s turn.` }</p>}
                 { !check() && turn > 0 && <p>{ `Last Move: ${other} went row ${history[history.length-1].row}, column ${history[history.length-1].col}.` }</p>}
+                { check() && !saved && turn > 0 && <p>{ 'Want to save the game to the archive? Click Save!' }</p>}
+                { check() && saved && turn > 0 && <p>{ 'Game Saved!' }</p>}
             </div>
         </div>
         
