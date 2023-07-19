@@ -36,6 +36,11 @@ li{
   cursor: pointer;
 }
 
+#grey{
+  background-color: rgb(110, 110, 110);
+  cursor: default;
+}
+
 h1{
   margin-left: auto;
 }
@@ -75,12 +80,17 @@ a {
   cursor: pointer;
 }
 
-#square1, #square4, #square7{
+#square1grey, #square2grey, #square3grey, #square4grey, #square5grey, #square6grey, #square7grey, #square8grey, #square9grey{
+  background-color: white;
+  cursor: default;
+}
+
+#square1, #square4, #square7, #square1grey, #square4grey, #square7grey{
   float:left;
   margin-left: 774px;
 }
 
-#square2, #square3, #square5, #square6, #square8, #square9{
+#square2, #square3, #square5, #square6, #square8, #square9, #square2grey, #square3grey, #square5grey, #square6grey, #square8grey, #square9grey{
   float:left;
 }
 
@@ -92,8 +102,15 @@ td, th {
   font-size: 25px;
   border: 2px solid;
   border-color: white;
-  background-color: rgb(240, 58, 88);
   color: white;
+}
+
+th {
+  background-color: rgb(0, 0, 0);
+}
+
+td {
+  background-color: rgb(240, 58, 88);
 }
 
 table {
