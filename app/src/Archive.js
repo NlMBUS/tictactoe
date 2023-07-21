@@ -6,10 +6,11 @@ const Archive = () => {
     const [archives, setArchives] = useState([]);
 
     useEffect(() => {
+        //useEffect to fetch only on page load
         fetch('http://localhost:8000/moves')
         .then((res) => res.json())
         .then(data => {
-            setArchives(data.filter(data => data.id > 9));
+            setArchives(data);
         })
       }, []);
 
@@ -47,7 +48,7 @@ const Archive = () => {
                             }
                             {
                             <td id="showBoard">
-                                <Link to ={`/archive/${singleArchive.id-9}`}>
+                                <Link to ={`/archive/${singleArchive.id}`}>
                                     Show
                                 </Link>
                             </td>
