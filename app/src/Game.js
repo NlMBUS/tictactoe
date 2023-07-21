@@ -34,16 +34,11 @@ const Game = () => {
             }
 
             idData = idData+1;
-            const move = { letter, id }; 
-            fetch('http://localhost:8000/moves/' + idData, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json"},
-                body: JSON.stringify(move)
-            })
         }
     }
 
     const check = () => {
+        //Checks win conditions, but also returns text displaying who wins
         if (moves.length === 9){
             if(
                 (moves[0].letter === moves[1].letter && moves[1].letter === moves[2].letter && moves[0].letter !== ' ') ||
@@ -73,11 +68,6 @@ const Game = () => {
                 setId(id);
                 const move = { letter, id };
                 moves.push(move);
-                fetch('http://localhost:8000/moves', {
-                    method: 'POST',
-                    headers: { "Content-Type": "application/json"},
-                    body: JSON.stringify(move)
-                })
             }
             setLetter('X')
             setTurn(0);
@@ -91,13 +81,6 @@ const Game = () => {
         setTurn(0);
         setSaved(false);
         setLetter(' ')
-        for (let i = 1; i <= moves.length; i++){
-            fetch('http://localhost:8000/moves/' + moves[i-1].id, {
-                method: 'DELETE',
-                headers: { "Content-Type": "application/json"},
-            })
-        }
-
     }
 
     const undo = () => {
@@ -105,12 +88,6 @@ const Game = () => {
             let historyData = history[history.length-1].idData+1;
             let tempLetter = letter;
             moves[historyData-1].letter = ' ';
-            const move = { letter, id };   
-            fetch('http://localhost:8000/moves/' + historyData, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json"},
-                body: JSON.stringify(move)
-            })
             setLetter(other);
             setOther(tempLetter);
             history.pop();
@@ -130,24 +107,10 @@ const Game = () => {
         }
     }
 
-    useEffect(() => {
-        fetch('http://localhost:8000/moves')
-        .then((res) => res.json())
-        .then(data => {
-            if (window.onbeforeunload != null){
-                setMoves(data);
-                setTurn(turn+1);
-            }
-        })
-        return () => {
-            window.onbeforeunload = null;
-            restart();
-        };
-      }, []);
-
     return (
         <div>
             <div className="actions">
+                {/*Greys out the button depending on conditions*/}
                 <button id={ moves.length == 0 ? "colored" : "grey" } onClick={ (e) => {start(e);}} >Start</button>
                 <button id={ moves.length > 0 ? "colored" : "grey" } onClick={ (e) => {restart(e);}} >Restart</button>
                 <button id={ !check() && turn > 0 ? "colored" : "grey" } onClick={ (e) => {undo(e);}} >Undo</button>
@@ -170,6 +133,7 @@ const Game = () => {
                 ))}
             <br />
             <div>
+                {/*Displays text depending on conditions*/}
                 <p id="status">{ check() }</p>
                 { !check() && moves.length > 0 && <p id="status">{ `It's ${letter}'s turn.` }</p>}
                 { !check() && turn > 0 && <p>{ `Last Move: ${other} went row ${history[history.length-1].row}, column ${history[history.length-1].col}.` }</p>}
