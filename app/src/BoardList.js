@@ -18,7 +18,7 @@ const BoardList = () => {
     }
 
     const remove = () => {
-        fetch(`http://localhost:8000/moves/${Number(id)+9}` , {
+        fetch(`http://localhost:8000/moves/${Number(id)}` , {
             method: 'DELETE'
         }).then(() => {
             navigate('/archive');
@@ -26,10 +26,11 @@ const BoardList = () => {
     }
 
     useEffect(() => {
+        //useEffect to fetch only on page load
         fetch('http://localhost:8000/moves')
         .then((res) => res.json())
         .then(data => {
-            const tempBoard = data.filter(data => data.id === Number(id)+9)
+            const tempBoard = data.filter(data => data.id === Number(id))
             setBoards(tempBoard[0].moves);
             setTurn(tempBoard[0].turn);
             setLetter(tempBoard[0].other);
